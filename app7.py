@@ -26,6 +26,12 @@ MODEL = "gpt-4o-mini"
 USD_TO_PLN = 3.97
 PRICING = model_pricings[MODEL]
 
+def is_valid_api_key(api_key):
+    # Sprawdź długość klucza
+    if len(api_key) != 51 or not api_key.startswith("sk-"):
+        return False
+    return True
+
 def get_openai_client():
     key = st.session_state["openai_api_key"]
     return key
@@ -244,9 +250,14 @@ if not st.session_state.get("openai_api_key"):
         st.markdown(instruction_html, unsafe_allow_html=True)
         
         st.info("Dodaj swój klucz API OpenAI aby móc korzystać z tej aplikacji")
-        st.session_state["openai_api_key"] = st.text_input("Klucz API", type="password")
-        if st.session_state["openai_api_key"]:
-            st.rerun()
+        api_key_input = st.text_input("Klucz API", type="password")
+
+        if api_key_input:
+            if is_valid_api_key(api_key_input):
+                st.session_state["openai_api_key"] = api_key_input
+                st.rerun()
+            else:
+                st.error("Podany klucz API jest niepoprawny. Upewnij się, że klucz zaczyna się od 'sk-' i ma 51 znaków długości.")
 
 if not st.session_state.get("openai_api_key"):
     st.stop()
