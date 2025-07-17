@@ -1,9 +1,9 @@
 import streamlit as st
 import json
 from pathlib import Path
-import openai
+#import openai
 from dotenv import dotenv_values
-#from openai import OpenAI
+from openai import OpenAI
 
 model_pricings = {
     "gpt-4o": {
@@ -19,41 +19,17 @@ model_pricings = {
 # Wczytywanie zmiennych środowiskowych z pliku .env
 env = dotenv_values(".env")
 
+if 'OPENAI_API_KEY' in st.secrets:
+    env['OPENAI_API_KEY'] = st.secrets['OPENAI_API_KEY']
+
 MODEL = "gpt-4o-mini"
 USD_TO_PLN = 3.97
 PRICING = model_pricings[MODEL]
 
+def get_openai_client():
+    return OpenAI(api_key=st.session_state["openai_api_key"])
 
-# OpenAI API key protection
-if not st.session_state.get("openai_api_key"):
-    if "OPENAI_API_KEY" in env:
-        st.session_state["openai_api_key"] = env["OPENAI_API_KEY"]
 
-    else:
-        st.title("Zaloguj do OpenAI")
-        
-        # Dodanie instrukcji dla użytkownika z kolorową ramką
-        instruction_html = """
-        <div style="background-color: #f0f4f8; padding: 10px; border-radius: 5px; border: 1px solid #0073e6; margin-bottom: 10px;">
-            <h4>Instrukcje uzyskania klucza API</h4>
-            <ol>
-                <li>Załóż konto na stronie <a href="https://platform.openai.com/signup" target="_blank">OpenAI</a>.</li>
-                <li>Wygeneruj swój klucz API w sekcji API Keys.</li>
-                <li>Wklej go poniżej.</li>
-            </ol>
-        </div>
-        """
-        st.markdown(instruction_html, unsafe_allow_html=True)
-        
-        st.info("Dodaj swój klucz API OpenAI aby móc korzystać z tej aplikacji")
-        st.session_state["openai_api_key"] = st.text_input("Klucz API", type="password")
-        if st.session_state["openai_api_key"]:
-            st.rerun()
-
-if not st.session_state.get("openai_api_key"):
-    st.stop()
-
-openai.api_key = st.session_state["openai_api_key"]
 
 def get_chatbot_reply(user_prompt, memory):
     # dodaj system message
@@ -245,6 +221,36 @@ def list_conversations():
 # MAIN PROGRAM
 #
 st.title('Chatbot')
+
+# OpenAI API key protection
+if not st.session_state.get("openai_api_key"):
+    if "OPENAI_API_KEY" in env:
+        st.session_state["openai_api_key"] = env["OPENAI_API_KEY"]
+
+    else:
+        st.title("Zaloguj do OpenAI")
+        
+        # Dodanie instrukcji dla użytkownika z kolorową ramką
+        instruction_html = """
+        <div style="background-color: #f0f4f8; padding: 10px; border-radius: 5px; border: 1px solid #0073e6; margin-bottom: 10px;">
+            <h4>Instrukcje uzyskania klucza API</h4>
+            <ol>
+                <li>Załóż konto na stronie <a href="https://platform.openai.com/signup" target="_blank">OpenAI</a>.</li>
+                <li>Wygeneruj swój klucz API w sekcji API Keys.</li>
+                <li>Wklej go poniżej.</li>
+            </ol>
+        </div>
+        """
+        st.markdown(instruction_html, unsafe_allow_html=True)
+        
+        st.info("Dodaj swój klucz API OpenAI aby móc korzystać z tej aplikacji")
+        st.session_state["openai_api_key"] = st.text_input("Klucz API", type="password")
+        if st.session_state["openai_api_key"]:
+            st.rerun()
+
+if not st.session_state.get("openai_api_key"):
+    st.stop()
+
 load_current_conversation()
 
 # Wyświetlanie wiadomości
