@@ -1,9 +1,9 @@
 import streamlit as st
 import json
 from pathlib import Path
-#import openai
+import openai
 from dotenv import dotenv_values
-from openai import OpenAI
+#from openai import OpenAI
 
 model_pricings = {
     "gpt-4o": {
