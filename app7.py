@@ -26,10 +26,9 @@ MODEL = "gpt-4o-mini"
 USD_TO_PLN = 3.97
 PRICING = model_pricings[MODEL]
 
-def get_openai():
-    return OpenAI(api_key=st.session_state["openai_api_key"])
-
-
+def get_openai_client():
+    key = st.session_state["openai_api_key"]
+    return key
 
 def get_chatbot_reply(user_prompt, memory):
     # dodaj system message
@@ -53,7 +52,7 @@ def get_chatbot_reply(user_prompt, memory):
         "content": user_prompt
     })
     
-    openai = get_openai()
+    openai.api_key = get_openai_client()
     try:
         # Użycie OpenAI API
         response = openai.ChatCompletion.create(
