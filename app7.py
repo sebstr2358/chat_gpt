@@ -19,8 +19,8 @@ model_pricings = {
 # Wczytywanie zmiennych środowiskowych z pliku .env
 env = dotenv_values(".env")
 
-if 'OPENAI_API_KEY' in st.secrets:
-    env['OPENAI_API_KEY'] = st.secrets['OPENAI_API_KEY']
+#if 'OPENAI_API_KEY' in st.secrets:
+    #env['OPENAI_API_KEY'] = st.secrets['OPENAI_API_KEY']
 
 MODEL = "gpt-4o-mini"
 USD_TO_PLN = 3.97
