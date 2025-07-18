@@ -30,7 +30,7 @@ if 'model' not in st.session_state:
 if 'messages' not in st.session_state:
     st.session_state['messages'] = []
 
-#PRICING = model_pricings[MODEL]
+
 
 def is_valid_api_key(api_key):
     if len(api_key) != 164 or not api_key.startswith("sk-"):
@@ -123,6 +123,9 @@ def load_current_conversation():
             f.write(json.dumps({
                 "current_conversation_id": conversation_id,
             }))
+            
+        # Ustaw aktualną konwersację w session state
+        st.session_state['name'] = conversation['name']  # Ustawienie nazwy konwersacji
 
     else:
         # Sprawdzamy, która konwersacja jest aktualna
@@ -135,6 +138,10 @@ def load_current_conversation():
             # Wczytujemy konwersację
             with open(DB_CONVERSATIONS_PATH / f"{conversation_id}.json", "r") as f:
                 conversation = json.loads(f.read())
+            load_conversation_to_state(conversation)
+            
+            # Ustaw aktualną konwersację w session state
+            st.session_state['name'] = conversation['name']  # Ustawienie nazwy konwersacji
         else:
             # Jeśli konwersacja nie istnieje, utwórz nową
             conversation_id = 1
@@ -148,8 +155,9 @@ def load_current_conversation():
             # Tworzymy nową konwersację
             with open(DB_CONVERSATIONS_PATH / f"{conversation_id}.json", "w") as f:
                 f.write(json.dumps(conversation))
-
-        load_conversation_to_state(conversation)
+                
+            # Ustaw aktualną konwersację w session state
+            st.session_state['name'] = conversation['name']  # Ustawienie nazwy konwersacji
 
 def save_current_conversation_message():
     conversation_id = st.session_state["id"]
@@ -285,6 +293,8 @@ if not st.session_state.get("openai_api_key"):
 if not st.session_state.get("openai_api_key"):
     st.stop()
 
+load_current_conversation()
+
 # MAIN PROGRAM
 st.title('Chatbot')
 
@@ -300,7 +310,7 @@ model_option = st.sidebar.selectbox("Wybierz model", options=list(model_pricings
 st.session_state.model = model_option  # Ustaw wybrany model
 PRICING = model_pricings[st.session_state.model]
 
-load_current_conversation()
+
 
 # Wyświetlanie wiadomości
 for message in st.session_state["messages"]:
