@@ -288,7 +288,7 @@ if not st.session_state.get("openai_api_key"):
             # Kontener na elementy w kolumnie c0
             st.markdown(
                 """
-                <div style="display: flex; flex-direction: column; justify-content: flex-start; height: 100%; height: 280px;">
+                <div style="display: flex; flex-direction: column; justify-content: flex-start; height: 100%; height: 250px;">
                     <h1 style="text-align: center;">Zaloguj do OpenAI</h1>
                     <div style="background-color: #3B4252; padding: 10px; border-radius: 5px; border: 1px solid #88C0D0; margin-top: 0; margin-bottom: 10px;">
                         <h4 style="color: #F0F8FF;">Instrukcje uzyskania klucza API</h4>
