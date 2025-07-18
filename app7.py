@@ -22,6 +22,11 @@ env = dotenv_values(".env")
 # Domyślny model
 DEFAULT_MODEL = "gpt-4o-mini"
 USD_TO_PLN = 3.97
+# Reszta Twojego kodu…
+DEFAULT_PERSONALITY = """
+Jesteś pomocnikiem, który odpowiada na wszystkie pytania użytkownika.
+Odpowiadaj na pytania w sposób zwięzły i zrozumiały.
+""".strip()
 
 # Ustaw model na domyślny w sesji
 if 'model' not in st.session_state:
@@ -30,7 +35,9 @@ if 'model' not in st.session_state:
 if 'messages' not in st.session_state:
     st.session_state['messages'] = []
 
-
+# Inicjalizacja chatbot_personality
+if 'chatbot_personality' not in st.session_state:
+    st.session_state['chatbot_personality'] = DEFAULT_PERSONALITY
 
 def is_valid_api_key(api_key):
     if len(api_key) != 164 or not api_key.startswith("sk-"):
