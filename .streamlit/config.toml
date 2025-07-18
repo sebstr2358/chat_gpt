@@ -1,5 +1,8 @@
+[global]
+theme = "dark"
+
 [theme]
-primaryColor = "#000080"
-backgroundColor = "#00008B"
-secondaryBackgroundColor = "#212121"
+primaryColor = "#1E90FF"
+backgroundColor = "#0E1117"
+secondaryBackgroundColor = "#1E1E1E"
 textColor = "#FFFFFF"
