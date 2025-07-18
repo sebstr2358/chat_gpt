@@ -281,7 +281,7 @@ if not st.session_state.get("openai_api_key"):
         st.session_state["openai_api_key"] = env["OPENAI_API_KEY"]
 
     else:
-        c0, c1 = st.columns()  # Ustal proporcje kolumn
+        c0, c1 = st.columns([2, 6])  # Ustal proporcje kolumn
 
         with c0:
              st.title("Zaloguj do OpenAI")
@@ -289,8 +289,6 @@ if not st.session_state.get("openai_api_key"):
         with c1:
             st.image("gpt_logo.png", width=200)
             
-        st.title("Zaloguj do OpenAI")
-
           # Dodaj ścieżkę do obrazu
         instruction_html = """
         <div style="background-color: #3B4252; padding: 10px; border-radius: 5px; border: 1px solid #88C0D0; margin-bottom: 10px;">
