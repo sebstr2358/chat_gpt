@@ -298,7 +298,7 @@ if not st.session_state.get("openai_api_key"):
             st.markdown(instruction_html, unsafe_allow_html=True)
 
         with c1:
-            st.image("gpt_logo.png", width=200)
+            st.image("1mózg.png", width=200)
             
         api_key_input = st.text_input("Klucz API", type="password")
 
@@ -319,7 +319,7 @@ load_current_conversation()
 # Wyświetlanie logo
 c0, c1 = st.columns([4, 6])  # Ustal proporcje kolumn
 with c0:
-    st.image("gpt_logo.png", width=200)
+    st.image("1mózg.png", width=200)
 with c1:
     st.title('Chatbot')
 
