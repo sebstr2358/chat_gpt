@@ -4,6 +4,12 @@ from pathlib import Path
 import openai
 from dotenv import dotenv_values
 
+# Ustawienia strony
+st.set_page_config(
+    page_title="Chatbot",  # Tytuł wyświetlany na pasku przeglądarki
+    layout="centered"  # Ustawienie układu (opcjonalne)
+)
+
 # Definicja cen modeli
 model_pricings = {
     "gpt-4o": {
