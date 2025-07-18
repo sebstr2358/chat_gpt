@@ -308,7 +308,7 @@ if not st.session_state.get("openai_api_key"):
             st.markdown(
                 """
                 <div style="display: flex; justify-content: center; align-items: center; height: 100%; height: 300px;">
-                    <img src="1mózg.png" width="200">
+                    <img src="1mózg.png" style="width= 200px">
                 </div>
                 """,
                 unsafe_allow_html=True
