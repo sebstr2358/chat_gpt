@@ -281,20 +281,20 @@ if not st.session_state.get("openai_api_key"):
         st.session_state["openai_api_key"] = env["OPENAI_API_KEY"]
 
     else:
-        c0, c1 = st.columns([5, 5])  # Ustal proporcje kolumn
+        c0, c1 = st.columns([6, 4])  # Ustal proporcje kolumn
 
         with c0:
              st.title("Zaloguj do OpenAI")
              instruction_html = """
-        <div style="background-color: #3B4252; padding: 10px; border-radius: 5px; border: 1px solid #88C0D0; margin-bottom: 10px;">
-            <h4 style="color: #F0F8FF;">Instrukcje uzyskania klucza API</h4>
-            <ol style="color: #F0F8FF;">
-                <li>Załóż konto na stronie <a href="https://platform.openai.com/signup" target="_blank" style="color: #88C0D0;">OpenAI</a>.</li>
-                <li>Wygeneruj swój klucz API w sekcji API Keys.</li>
-                <li>Wklej go poniżej.</li>
-            </ol>
-        </div>
-        """
+            <div style="background-color: #3B4252; padding: 10px; border-radius: 5px; border: 1px solid #88C0D0; margin-bottom: 10px;">
+                <h4 style="color: #F0F8FF;">Instrukcje uzyskania klucza API</h4>
+                <ol style="color: #F0F8FF;">
+                    <li>Załóż konto na stronie <a href="https://platform.openai.com/signup" target="_blank" style="color: #88C0D0;">OpenAI</a>.</li>
+                    <li>Wygeneruj swój klucz API w sekcji API Keys.</li>
+                    <li>Wklej go poniżej.</li>
+                </ol>
+            </div>
+            """
         st.markdown(instruction_html, unsafe_allow_html=True)
 
         with c1:
