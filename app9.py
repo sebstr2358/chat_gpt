@@ -3,35 +3,32 @@ import json
 from pathlib import Path
 import openai
 from dotenv import dotenv_values
+#from openai import OpenAI
 
-# Definicja cen modeli
 model_pricings = {
     "gpt-4o": {
-        "input_tokens": 5.00 / 1_000_000,  # per token
-        "output_tokens": 15.00 / 1_000_000,  # per token 
+        "input_tokens": 5.00 / 1_000_000, # per token
+        "output_tokens": 15.00 / 1_000_000, # per token 
     },
     "gpt-4o-mini": {
-        "input_tokens": 0.150 / 1_000_000,  # per token
-        "output_tokens": 0.600 / 1_000_000,  # per token 
+        "input_tokens": 0.150 / 1_000_000, # per token
+        "output_tokens": 0.600 / 1_000_000, # per token 
     }
 }
 
 # Wczytywanie zmiennych środowiskowych z pliku .env
 env = dotenv_values(".env")
 
-# Domyślny model
-DEFAULT_MODEL = "gpt-4o-mini"
+#if 'OPENAI_API_KEY' in st.secrets:
+    #env['OPENAI_API_KEY'] = st.secrets['OPENAI_API_KEY']
+
+MODEL = "gpt-4o-mini"
 USD_TO_PLN = 3.97
-
-# Ustaw model na domyślny w sesji
-if 'model' not in st.session_state:
-    st.session_state.model = DEFAULT_MODEL
-
-
-#PRICING = model_pricings[MODEL]
+PRICING = model_pricings[MODEL]
 
 def is_valid_api_key(api_key):
-    if len(api_key) != 51 or not api_key.startswith("sk-"):
+    # Sprawdź długość klucza
+    if len(api_key) != 164 or not api_key.startswith("sk-"):
         return False
     return True
 
@@ -60,12 +57,12 @@ def get_chatbot_reply(user_prompt, memory):
         "role": "user",
         "content": user_prompt
     })
-
+    
     openai.api_key = get_openai_client()
     try:
         # Użycie OpenAI API
         response = openai.ChatCompletion.create(
-            model=st.session_state.model,
+            model=MODEL,
             messages=messages
         )
 
@@ -84,8 +81,9 @@ def get_chatbot_reply(user_prompt, memory):
     except Exception as e:
         st.error(f"Błąd podczas uzyskiwania odpowiedzi: {e}")
         return {"role": "assistant", "content": "Coś poszło nie tak. Sprawdź klucz API lub połączenie."}
-
-# Reszta Twojego kodu…
+#
+# CONVERSATION HISTORY AND DATABASE
+#
 DEFAULT_PERSONALITY = """
 Jesteś pomocnikiem, który odpowiada na wszystkie pytania użytkownika.
 Odpowiadaj na pytania w sposób zwięzły i zrozumiały.
@@ -112,42 +110,27 @@ def load_current_conversation():
             "messages": [],
         }
 
-        # Tworzymy nową konwersację
+        # tworzymy nową konwersację
         with open(DB_CONVERSATIONS_PATH / f"{conversation_id}.json", "w") as f:
             f.write(json.dumps(conversation))
 
-        # Która od razu staje się aktualna
+        # która od razu staje się aktualna
         with open(DB_PATH / "current.json", "w") as f:
             f.write(json.dumps({
                 "current_conversation_id": conversation_id,
             }))
 
     else:
-        # Sprawdzamy, która konwersacja jest aktualna
+        # sprawdzamy, która konwersacja jest aktualna
         with open(DB_PATH / "current.json", "r") as f:
             data = json.loads(f.read())
             conversation_id = data["current_conversation_id"]
 
-        # Sprawdź, czy istnieje konwersacja przed próbą jej załadowania
-        if (DB_CONVERSATIONS_PATH / f"{conversation_id}.json").exists():
-            # Wczytujemy konwersację
-            with open(DB_CONVERSATIONS_PATH / f"{conversation_id}.json", "r") as f:
-                conversation = json.loads(f.read())
-        else:
-            # Jeśli konwersacja nie istnieje, utwórz nową
-            conversation_id = 1
-            conversation = {
-                "id": conversation_id,
-                "name": "Konwersacja 1",
-                "chatbot_personality": DEFAULT_PERSONALITY,
-                "messages": [],
-            }
+        # wczytujemy konwersację
+        with open(DB_CONVERSATIONS_PATH / f"{conversation_id}.json", "r") as f:
+            conversation = json.loads(f.read()) 
 
-            # Tworzymy nową konwersację
-            with open(DB_CONVERSATIONS_PATH / f"{conversation_id}.json", "w") as f:
-                f.write(json.dumps(conversation))
-
-        load_conversation_to_state(conversation)
+    load_conversation_to_state(conversation)
 
 def save_current_conversation_message():
     conversation_id = st.session_state["id"]
@@ -240,24 +223,10 @@ def list_conversations():
 
     return conversations
 
-def delete_conversation(conversation_id):
-    # Usuń plik z danymi konwersacji
-    file_path = DB_CONVERSATIONS_PATH / f"{conversation_id}.json"
-    if file_path.exists():
-        file_path.unlink()  # Usuń plik
-        st.success("Konwersacja została usunięta.")
-    else:
-        st.error("Nie znaleziono konwersacji do usunięcia.")
-
-
+#
 # MAIN PROGRAM
+#
 st.title('Chatbot')
-
-# Wyświetlanie nazwy aktualnej konwersacji
-if 'name' in st.session_state:
-    st.subheader(f"Aktualna konwersacja: {st.session_state['name']}")
-else:
-    st.subheader("Aktualna konwersacja: Brak")
 
 # OpenAI API key protection
 if not st.session_state.get("openai_api_key"):
@@ -266,7 +235,8 @@ if not st.session_state.get("openai_api_key"):
 
     else:
         st.title("Zaloguj do OpenAI")
-
+        
+        # Dodanie instrukcji dla użytkownika z kolorową ramką
         instruction_html = """
         <div style="background-color: #f0f4f8; padding: 10px; border-radius: 5px; border: 1px solid #0073e6; margin-bottom: 10px;">
             <h4>Instrukcje uzyskania klucza API</h4>
@@ -278,26 +248,19 @@ if not st.session_state.get("openai_api_key"):
         </div>
         """
         st.markdown(instruction_html, unsafe_allow_html=True)
-
+        
         st.info("Dodaj swój klucz API OpenAI aby móc korzystać z tej aplikacji")
         api_key_input = st.text_input("Klucz API", type="password")
 
         if api_key_input:
             if is_valid_api_key(api_key_input):
                 st.session_state["openai_api_key"] = api_key_input
-                st.session_state.model = DEFAULT_MODEL
                 st.rerun()
             else:
-                st.error("Podany klucz API jest niepoprawny. Upewnij się, że klucz zaczyna się od 'sk-' i ma 51 znaków długości.")
+                st.error("Podany klucz API jest niepoprawny. Upewnij się, że klucz zaczyna się od 'sk-' i ma 164 znaki długości.")
 
 if not st.session_state.get("openai_api_key"):
     st.stop()
-    
-# Opcja wyboru modelu w sidebarze na górze
-st.sidebar.header("Ustawienia")
-model_option = st.sidebar.selectbox("Wybierz model", options=list(model_pricings.keys()), index=list(model_pricings.keys()).index(st.session_state.model))
-st.session_state.model = model_option  # Ustaw wybrany model
-PRICING = model_pricings[st.session_state.model]
 
 load_current_conversation()
 
@@ -329,6 +292,7 @@ if prompt:
     save_current_conversation_message()
 
 with st.sidebar:
+    st.write("Aktualny model", MODEL)
     total_cost = 0
     for message in st.session_state["messages"]:
         if "usage" in message:
@@ -366,17 +330,10 @@ with st.sidebar:
     conversations = list_conversations()
     sorted_conversations = sorted(conversations, key=lambda x: x["id"], reverse=True)
     for conversation in sorted_conversations[:5]:
-        c0, c1, c2 = st.columns([6, 4, 2])  # Ustal proporcje kolumn
-
+        c0, c1 = st.columns([10, 4])
         with c0:
             st.write(conversation["name"])
 
         with c1:
-            if st.button("Załaduj", key=conversation["id"], disabled=conversation["id"] == st.session_state["id"]):
+            if st.button("załaduj", key=conversation["id"], disabled=conversation["id"] == st.session_state["id"]):
                 switch_conversation(conversation["id"])
-
-        with c2:
-            if st.button("Usuń", key=f"delete_{conversation['id']}"):
-                delete_conversation(conversation["id"])
-                st.session_state.pop("messages", None)  # Wyczyść wiadomości po usunięciu konwersacji
-                load_current_conversation()  # Przeładuj aktualną konwersację
