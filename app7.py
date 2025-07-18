@@ -283,22 +283,36 @@ if not st.session_state.get("openai_api_key"):
     else:
         c0, c1 = st.columns([6, 4])  # Ustal proporcje kolumn
 
+        # Ustal wysokość kolumny, aby wyśrodkować elementy
         with c0:
-            st.title("Zaloguj do OpenAI")
-            instruction_html = """
-            <div style="background-color: #3B4252; padding: 10px; border-radius: 5px; border: 1px solid #88C0D0; margin-top: 0; margin-bottom: 10px;">
-                <h4 style="color: #F0F8FF;">Instrukcje uzyskania klucza API</h4>
-                <ol style="color: #F0F8FF;">
-                    <li>Załóż konto na stronie <a href="https://platform.openai.com/signup" target="_blank" style="color: #88C0D0;">OpenAI</a>.</li>
-                    <li>Wygeneruj swój klucz API w sekcji API Keys.</li>
-                    <li>Wklej go poniżej.</li>
-                </ol>
-            </div>
-            """
-            st.markdown(instruction_html, unsafe_allow_html=True)
+            # Kontener na elementy w kolumnie c0
+            st.markdown(
+                """
+                <div style="display: flex; flex-direction: column; justify-content: center; height: 100%; height: 300px;">
+                    <h1 style="text-align: center;">Zaloguj do OpenAI</h1>
+                    <div style="background-color: #3B4252; padding: 10px; border-radius: 5px; border: 1px solid #88C0D0; margin-top: 0; margin-bottom: 10px;">
+                        <h4 style="color: #F0F8FF;">Instrukcje uzyskania klucza API</h4>
+                        <ol style="color: #F0F8FF;">
+                            <li>Załóż konto na stronie <a href="https://platform.openai.com/signup" target="_blank" style="color: #88C0D0;">OpenAI</a>.</li>
+                            <li>Wygeneruj swój klucz API w sekcji API Keys.</li>
+                            <li>Wklej go poniżej.</li>
+                        </ol>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
         with c1:
-            st.image("1mózg.png", width=200)
+            # Kontener dla kolumny c1
+            st.markdown(
+                """
+                <div style="display: flex; justify-content: center; align-items: center; height: 100%; height: 300px;">
+                    <img src="1mózg.png" width="200">
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
             
         api_key_input = st.text_input("Klucz API", type="password")
 
