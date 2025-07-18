@@ -1,6 +1,3 @@
-[global]
-theme = "dark"
-
 [theme]
 primaryColor = "#1E90FF"
 backgroundColor = #1E90FF"
