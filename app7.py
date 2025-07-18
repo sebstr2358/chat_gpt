@@ -304,15 +304,7 @@ if not st.session_state.get("openai_api_key"):
             )
 
         with c1:
-            # Kontener dla kolumny c1
-            st.markdown(
-                """
-                <div style="display: flex; justify-content: center; align-items: center; height: 100%; height: 300px;">
-                    <img src="1mózg.png" style="width= 200px">
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+            st.image("1mózg.png", width=200)
             
         api_key_input = st.text_input("Klucz API", type="password")
 
