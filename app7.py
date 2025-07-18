@@ -281,7 +281,7 @@ if not st.session_state.get("openai_api_key"):
         st.session_state["openai_api_key"] = env["OPENAI_API_KEY"]
 
     else:
-        c0, c1 = st.columns([2, 6])  # Ustal proporcje kolumn
+        c0, c1 = st.columns([5, 5])  # Ustal proporcje kolumn
 
         with c0:
              st.title("Zaloguj do OpenAI")
