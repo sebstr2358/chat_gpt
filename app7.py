@@ -251,16 +251,6 @@ def delete_conversation(conversation_id):
     else:
         st.error("Nie znaleziono konwersacji do usunięcia.")
 
-
-# MAIN PROGRAM
-st.title('Chatbot')
-
-# Wyświetlanie nazwy aktualnej konwersacji
-if 'name' in st.session_state:
-    st.subheader(f"Aktualna konwersacja: {st.session_state['name']}")
-else:
-    st.subheader("Aktualna konwersacja: Brak")
-
 # OpenAI API key protection
 if not st.session_state.get("openai_api_key"):
     if "OPENAI_API_KEY" in env:
@@ -294,7 +284,16 @@ if not st.session_state.get("openai_api_key"):
 
 if not st.session_state.get("openai_api_key"):
     st.stop()
-    
+
+# MAIN PROGRAM
+st.title('Chatbot')
+
+# Wyświetlanie nazwy aktualnej konwersacji
+if 'name' in st.session_state:
+    st.subheader(f"Aktualna konwersacja: {st.session_state['name']}")
+else:
+    st.subheader("Aktualna konwersacja: Brak")
+  
 # Opcja wyboru modelu w sidebarze na górze
 st.sidebar.header("Ustawienia")
 model_option = st.sidebar.selectbox("Wybierz model", options=list(model_pricings.keys()), index=list(model_pricings.keys()).index(st.session_state.model))
