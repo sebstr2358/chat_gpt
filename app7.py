@@ -367,7 +367,7 @@ with st.sidebar:
     conversations = list_conversations()
     sorted_conversations = sorted(conversations, key=lambda x: x["id"], reverse=True)
     for conversation in sorted_conversations[:5]:
-        c0, c1, c2 = st.columns([6, 4, 2])  # Ustal proporcje kolumn
+        c0, c1, c2 = st.columns([6, 2, 2])  # Ustal proporcje kolumn
 
         with c0:
             st.write(conversation["name"])
