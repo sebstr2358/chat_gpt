@@ -317,8 +317,11 @@ load_current_conversation()
 
 # MAIN PROGRAM
 # Wyświetlanie logo
-st.image("gpt_logo.png", width=200)
-st.title('Chatbot')
+c0, c1 = st.columns([5, 5])  # Ustal proporcje kolumn
+with c0:
+    st.title('Chatbot')
+with c1:
+    st.image("gpt_logo.png", width=200)
 
 # Wyświetlanie nazwy aktualnej konwersacji
 if 'name' in st.session_state and st.session_state['name']:
