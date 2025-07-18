@@ -286,7 +286,7 @@ if not st.session_state.get("openai_api_key"):
         with c0:
              st.title("Zaloguj do OpenAI")
              instruction_html = """
-            <div style="background-color: #3B4252; padding: 10px; border-radius: 5px; border: 1px solid #88C0D0; margin-bottom: 10px;">
+            <div style="width: 50%; background-color: #3B4252; padding: 10px; border-radius: 5px; border: 1px solid #88C0D0; margin-bottom: 10px;">
                 <h4 style="color: #F0F8FF;">Instrukcje uzyskania klucza API</h4>
                 <ol style="color: #F0F8FF;">
                     <li>Załóż konto na stronie <a href="https://platform.openai.com/signup" target="_blank" style="color: #88C0D0;">OpenAI</a>.</li>
