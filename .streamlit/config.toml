@@ -3,6 +3,6 @@ theme = "dark"
 
 [theme]
 primaryColor = "#1E90FF"
-backgroundColor = "#0E1117"
+backgroundColor = #1E90FF"
 secondaryBackgroundColor = "#1E1E1E"
 textColor = "#FFFFFF"
