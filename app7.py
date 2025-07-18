@@ -300,19 +300,6 @@ if not st.session_state.get("openai_api_key"):
         with c1:
             st.image("gpt_logo.png", width=200)
             
-          # Dodaj ścieżkę do obrazu
-        instruction_html = """
-        <div style="background-color: #3B4252; padding: 10px; border-radius: 5px; border: 1px solid #88C0D0; margin-bottom: 10px;">
-            <h4 style="color: #F0F8FF;">Instrukcje uzyskania klucza API</h4>
-            <ol style="color: #F0F8FF;">
-                <li>Załóż konto na stronie <a href="https://platform.openai.com/signup" target="_blank" style="color: #88C0D0;">OpenAI</a>.</li>
-                <li>Wygeneruj swój klucz API w sekcji API Keys.</li>
-                <li>Wklej go poniżej.</li>
-            </ol>
-        </div>
-        """
-        st.markdown(instruction_html, unsafe_allow_html=True)
-
         api_key_input = st.text_input("Klucz API", type="password")
 
         if api_key_input:
