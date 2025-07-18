@@ -26,6 +26,9 @@ model_pricings = {
 # Wczytywanie zmiennych środowiskowych z pliku .env
 env = dotenv_values(".env")
 
+# Wyświetlanie logo
+st.image("gpt_logo.png", use_column_width=True)
+
 # Domyślny model
 DEFAULT_MODEL = "gpt-4o-mini"
 USD_TO_PLN = 3.97
@@ -281,6 +284,7 @@ if not st.session_state.get("openai_api_key"):
     else:
         st.title("Zaloguj do OpenAI")
 
+        st.image("gpt_logo.png", use_column_width=True)  # Dodaj ścieżkę do obrazu
         instruction_html = """
         <div style="background-color: #3B4252; padding: 10px; border-radius: 5px; border: 1px solid #88C0D0; margin-bottom: 10px;">
             <h4 style="color: #F0F8FF;">Instrukcje uzyskania klucza API</h4>
