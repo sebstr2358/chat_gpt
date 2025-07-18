@@ -27,6 +27,8 @@ USD_TO_PLN = 3.97
 if 'model' not in st.session_state:
     st.session_state.model = DEFAULT_MODEL
 
+if 'messages' not in st.session_state:
+    st.session_state['messages'] = []
 
 #PRICING = model_pricings[MODEL]
 
