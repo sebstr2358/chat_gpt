@@ -317,7 +317,7 @@ load_current_conversation()
 
 # MAIN PROGRAM
 # Wyświetlanie logo
-c0, c1 = st.columns([5, 5])  # Ustal proporcje kolumn
+c0, c1 = st.columns([4, 4])  # Ustal proporcje kolumn
 with c0:
     st.title('Chatbot')
 with c1:
