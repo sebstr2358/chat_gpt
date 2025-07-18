@@ -304,7 +304,7 @@ if not st.session_state.get("openai_api_key"):
             )
 
         with c1:
-            st.image("1mózg.png", height=400)
+            st.image("1mózg.png", width=250)
             
         api_key_input = st.text_input("Klucz API", type="password")
 
