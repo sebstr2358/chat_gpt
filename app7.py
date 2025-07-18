@@ -6,7 +6,7 @@ from dotenv import dotenv_values
 
 # Ustawienia strony
 st.set_page_config(
-    page_title="Chatbot   ",  # Tytuł wyświetlany na pasku przeglądarki
+    page_title="Interactive Chatbot",  # Tytuł wyświetlany na pasku przeglądarki
     page_icon="🤖",  # Ikona wyświetlana na karcie (opcjonalne)
     layout="centered"  # Ustawienie układu (opcjonalne)
 )
