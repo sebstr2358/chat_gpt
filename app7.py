@@ -256,7 +256,7 @@ def delete_conversation(conversation_id):
 st.title('Chatbot')
 
 # Wyświetlanie nazwy aktualnej konwersacji
-if 'name' in st.session_state:
+if 'name' in st.session_state and st.session_state['name']:
     st.subheader(f"Aktualna konwersacja: {st.session_state['name']}")
 else:
     st.subheader("Aktualna konwersacja: Brak")
