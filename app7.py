@@ -31,7 +31,7 @@ if 'model' not in st.session_state:
 #PRICING = model_pricings[MODEL]
 
 def is_valid_api_key(api_key):
-    if len(api_key) != 51 or not api_key.startswith("sk-"):
+    if len(api_key) != 164 or not api_key.startswith("sk-"):
         return False
     return True
 
